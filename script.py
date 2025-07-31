@@ -17,8 +17,8 @@ COUNTRY_ORDER_STR = os.getenv("COUNTRY_ORDER") or ""
 COUNTRY_ORDER = [code.strip() for code in COUNTRY_ORDER_STR.split(',')] if COUNTRY_ORDER_STR else []
 
 LINKS_PER_COUNTRY = int(os.getenv("LINKS_PER_COUNTRY") or "20")
-LINK_PREFIX = os.getenv("LINK_PREFIX", "💖")
-LINK_SUFFIX = os.getenv("LINK_SUFFIX", "💮")
+LINK_PREFIX = os.getenv("LINK_PREFIX") or ""
+LINK_SUFFIX = os.getenv("LINK_SUFFIX") or "💮"
 
 if not GITHUB_TOKEN or not REPO_NAME or not FILE_PATH: exit(1)
 if not WEBPAGE_URLS: exit(1)
