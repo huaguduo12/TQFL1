@@ -12,7 +12,7 @@ FILE_PATH = os.getenv("FILE_PATH")
 WEBPAGE_URLS = os.getenv("WEBPAGE_URLS", "").strip().splitlines()
 COUNTRY_ORDER_STR = os.getenv("COUNTRY_ORDER", "HK,SG,JP,TW,KR,US,CA,AU,GB,FR,IT,NL,DE,RU,PL")
 COUNTRY_ORDER = [code.strip() for code in COUNTRY_ORDER_STR.split(',')]
-LINKS_PER_COUNTRY = int(os.getenv("LINKS_PER_COUNTRY") or "20"))
+LINKS_PER_COUNTRY = int(os.getenv("LINKS_PER_COUNTRY") or "20")
 
 # --- 2. 检查环境变量 (无变化) ---
 if not GITHUB_TOKEN or not REPO_NAME or not FILE_PATH:
