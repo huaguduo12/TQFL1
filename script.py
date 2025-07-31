@@ -20,8 +20,8 @@ LINKS_PER_COUNTRY = int(os.getenv("LINKS_PER_COUNTRY") or "20")
 
 # <<< 新增功能区 START >>>
 # 可选：为国家代码添加自定义前后缀
-LINK_PREFIX = os.getenv("LINK_PREFIX", "💮")
-LINK_SUFFIX = os.getenv("LINK_SUFFIX", "💖")
+LINK_PREFIX = os.getenv("LINK_PREFIX", "")
+LINK_SUFFIX = os.getenv("LINK_SUFFIX", "")
 # <<< 新增功能区 END >>>
 
 
