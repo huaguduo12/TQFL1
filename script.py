@@ -12,7 +12,7 @@ REPO_NAME = os.getenv("REPO_NAME")
 FILE_PATH = os.getenv("FILE_PATH")
 WEBPAGE_URLS = os.getenv("WEBPAGE_URLS", "").strip().splitlines()
 
-COUNTRY_ORDER_STR = os.getenv("COUNTRY_ORDER") or "HK,SG,JP,TW,KR,US,CA,AU,GB,FR,IT,NL,DE,RU,PL"
+COUNTRY_ORDER_STR = os.getenv("COUNTRY_ORDER") or ""
 # 如果 COUNTRY_ORDER 未设置, 则 COUNTRY_ORDER 为一个空列表 []
 COUNTRY_ORDER = [code.strip() for code in COUNTRY_ORDER_STR.split(',')] if COUNTRY_ORDER_STR else []
 
