@@ -7,22 +7,19 @@ from io import StringIO
 from urllib.parse import unquote
 from github import Github
 
-# --- 1. 配置和环境变量部分 (无改动) ---
 GITHUB_TOKEN = os.getenv("MY_GITHUB_TOKEN")
 REPO_NAME = os.getenv("REPO_NAME")
 FILE_PATH = os.getenv("FILE_PATH")
 WEBPAGE_URLS = os.getenv("WEBPAGE_URLS", "").strip().splitlines()
 
-COUNTRY_ORDER_STR = os.getenv("COUNTRY_ORDER") or ""
+COUNTRY_ORDER_STR = os.getenv("COUNTRY_ORDER") or "HK,SG,JP,TW,KR,US,CA,AU,GB,FR,IT,NL,DE,RU,PL"
 # 如果 COUNTRY_ORDER 未设置, 则 COUNTRY_ORDER 为一个空列表 []
 COUNTRY_ORDER = [code.strip() for code in COUNTRY_ORDER_STR.split(',')] if COUNTRY_ORDER_STR else []
 
 LINKS_PER_COUNTRY = int(os.getenv("LINKS_PER_COUNTRY") or "20")
-LINK_PREFIX = os.getenv("LINK_PREFIX", "")
-LINK_SUFFIX = os.getenv("LINK_SUFFIX", "")
+LINK_PREFIX = os.getenv("LINK_PREFIX", "💖")
+LINK_SUFFIX = os.getenv("LINK_SUFFIX", "💮")
 
-# --- 2. 检查、常量和所有解析函数 (与上一版 V7 完全相同, 此处省略) ---
-# ... (extract_vless_links, extract_csv_links, extract_line_based_links, process_subscription_url 等函数均无任何改动)
 if not GITHUB_TOKEN or not REPO_NAME or not FILE_PATH: exit(1)
 if not WEBPAGE_URLS: exit(1)
 def extract_vless_links(decoded_content):
@@ -106,7 +103,6 @@ def process_subscription_url(url):
         print(f"  > 获取 URL 内容失败: {e}")
         return []
         
-# --- 排序和写入函数 (无改动) ---
 def filter_and_sort_links(all_links, order, limit):
     grouped_links = {}
     for link_info in all_links:
@@ -139,7 +135,6 @@ def write_to_github(content):
         print(f"写入 GitHub 时发生错误: {e}")
 
 
-# --- 主函数 (重大逻辑修改) ---
 def main():
     print("开始执行订阅链接处理任务...")
     all_extracted_links = []
@@ -155,7 +150,6 @@ def main():
         print("未能从任何源提取到链接，任务终止。")
         return
 
-    # <<< 关键逻辑修改 START >>>
     final_links = []
     # 如果 COUNTRY_ORDER 被设置了 (列表不为空)，则进入“排序分组模式”
     if COUNTRY_ORDER:
@@ -166,7 +160,6 @@ def main():
         print("未检测到 COUNTRY_ORDER, 进入原始顺序模式...")
         # 直接从提取到的列表中提取链接字符串，保持原始顺序
         final_links = [link_info['link'] for link_info in all_extracted_links]
-    # <<< 关键逻辑修改 END >>>
 
     print(f"经过处理后，最终保留 {len(final_links)} 个链接。")
     final_content = "\n".join(final_links)
