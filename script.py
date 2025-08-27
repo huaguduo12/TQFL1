@@ -17,7 +17,7 @@ WEBPAGE_URLS = os.getenv("WEBPAGE_URLS", "").strip().splitlines()
 COUNTRY_ORDER_STR = os.getenv("COUNTRY_ORDER") or ""
 COUNTRY_ORDER = [code.strip() for code in COUNTRY_ORDER_STR.split(',')] if COUNTRY_ORDER_STR else []
 
-LINKS_PER_COUNTRY = int(os.getenv("LINKS_PER_COUNTRY") or "20")
+LINKS_PER_COUNTRY = int(os.getenv("LINKS_PER_COUNTRY") or "30")
 LINK_PREFIX = os.getenv("LINK_PREFIX") or ""
 LINK_SUFFIX = os.getenv("LINK_SUFFIX") or ""
 
