@@ -84,9 +84,17 @@ LOCATION_TO_CODE = {
     'syd': 'AU', 'sydney': 'AU', 'mel': 'AU', 'melbourne': 'AU', 'akl': 'NZ', 'auckland': 'NZ',
     'jnb': 'ZA', 'johannesburg': 'ZA', 'cai': 'EG', 'cairo': 'EG'
 }
-
+FORCED_NAME_MAPPING = {
+    "天诚": "HK",
+    "官方": "HK",
+    "更新": "HK"
+    # 您可以根据需要添加更多关键词，例如 "官网": "HK"
+}
 # --- 3. 辅助函数与链接提取函数 (已重构) ---
 def get_code_from_fragment(fragment):
+    for keyword, code in FORCED_NAME_MAPPING.items():
+        if keyword in fragment:
+            return code 
     fragment_upper = fragment.upper()
     dc_match = re.search(r'([A-Z]{3})', fragment_upper)
     if dc_match:
