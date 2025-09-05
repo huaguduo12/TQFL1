@@ -140,12 +140,33 @@ def extract_line_based_links(plain_content):
     for line in plain_content.strip().splitlines():
         clean_line = line.strip()
         if not clean_line: continue
-        ip_port_match = re.search(r'([^#]+:\d+)#(.+)', clean_line)
-        if ip_port_match:
-            link_part, fragment = ip_port_match.group(1), ip_port_match.group(2).strip()
-            code = get_code_from_fragment(fragment)
+
+        link_part = None
+        fragment = None
+
+        # 优先匹配标准格式：带 '#'
+        # 例如：8.8.8.8:80#Google
+        match_hash = re.search(r'([^#\s]+:\d+)\s*#\s*(.+)', clean_line)
+        if match_hash:
+            link_part = match_hash.group(1)
+            fragment = match_hash.group(2)
+        else:
+            # 如果没有'#'，则尝试匹配非标准格式：IP:PORT直接跟名称
+            # 例如：8.218.209.29:9002天诚...
+            # 这个正则表达式会捕获第一个冒号和数字组合，后面的一切都视为名称
+            match_no_hash = re.search(r'^([^:\s]+:\d+)(.+)', clean_line)
+            if match_no_hash:
+                link_part = match_no_hash.group(1)
+                fragment = match_no_hash.group(2)
+
+        # 如果通过以上任意一种方式成功解析出了地址和名称
+        if link_part and fragment:
+            # 就用我们之前的 get_code_from_fragment 函数来识别国家
+            code = get_code_from_fragment(fragment.strip())
             if code != "UNKNOWN":
-                links.append({"link_part": link_part, "code": code})
+                # 识别成功后，加入待处理列表
+                links.append({"link_part": link_part.strip(), "code": code})
+                
     return links
 
 # --- 4. 核心处理逻辑 ---
